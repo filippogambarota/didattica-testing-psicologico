@@ -1,0 +1,311 @@
+---
+title: "Testing Psicologico"
+author: "Filippo Gambarota"
+date: "10/25/2021"
+fontsize: 8pt
+output: 
+  beamer_presentation:
+    theme: "metropolis"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Vettori e matrici
+
+## Esercizi
+
+1) Usare \texttt{seq} per creare il vettore
+$$
+v1 = \left(4,8,10,12 \right) 
+$$
+
+2) Usare \texttt{rep} per creare 
+$$
+v2 = \left(a, a, a, b, b, c, c, c, c \right)
+$$
+
+3) Costruire la matrice
+$$
+M =
+\begin{pmatrix}
+-3 & 4 & 0.1\\
+2 & 9 & -5
+\end{pmatrix}
+$$
+
+4) Controllare la struttare di $M$ ed estrarne le dimensioni
+
+5) Estrarre la seconda riga di $M$
+
+
+## Soluzioni
+
+```{r vect2, echo=TRUE}
+# 1) Usare seq per creare il vettore v1
+v1 <- seq(from=4, to=12, by=2)
+
+# 2) Usare rep per creare il vettore v2
+v2 <- rep(x=c("a","b","c"), times=c(3,2,4))
+
+# 3) Costruire la matrice M
+M <- matrix(c(-3,2,4,9,0.1, -5), ncol=3)
+
+# 4) Controllare la struttare di M ed estrarne le dimensioni
+str(M)
+ncol(M)
+nrow(M)
+
+# 5) Estrarre la seconda riga di M
+M[2,]
+```
+
+
+# Liste
+
+## Creazione di liste
+
+Una lista è un contenitore di oggetti di qualsiasi tipo.
+
+Si crea con il comando \texttt{list()}.
+
+```{r echo=TRUE}
+# creaiamo una lista contentente i due vettori v1 e v2 e la matrice M
+L <- list("v_seq"=v1, "v_rep"=v2, "matrice"=M)
+L
+
+# nomi degli elementi di L
+names(L)
+```
+
+
+## Estrazione di elementi
+
+
+```{r echo=TRUE}
+# un elemento si può estrarre con l'indice o con il nome
+# per estrarre il secondo elemento, sono equivalenti:
+L[[2]]
+L$v_rep
+
+# salviamo tutto in un file chiamato prova.rda
+save.image(file="prova.rda")
+
+# pulizia
+rm(list=ls())
+```
+
+
+# Dataframe
+
+## Dati SWISS
+
+Studieremo un dataframe contenuto nel pacchetto \texttt{datasets}.
+
+I dati contengono una misura di fertilità e indicatori socio-economici per 47 province svizzere.
+
+
+```{r, echo=TRUE, eval = FALSE}
+# installiamo (solo la prima volta) e richiamiamo il pacchetto
+# install.packages("datasets")
+library(datasets)
+
+# richiamiamo il dataset di interesse, chiamato swiss
+data("swiss")
+
+# osserviamo il contenuto
+ls()
+
+# help per la descrizione
+?swiss
+
+# cambiamento nome da swiss a d
+d <- swiss
+rm(swiss)
+```
+
+```{r, include = FALSE}
+# installiamo (solo la prima volta) e richiamiamo il pacchetto
+# install.packages("datasets")
+library(datasets)
+
+# richiamiamo il dataset di interesse, chiamato swiss
+data("swiss")
+
+# osserviamo il contenuto
+ls()
+
+# cambiamento nome da swiss a d
+d <- swiss
+rm(swiss)
+```
+
+
+## Struttura dei dati
+
+```{r, echo=TRUE}
+str(d)
+```
+
+
+
+## Prime righe del dataframe
+
+```{r, echo=TRUE}
+head(d)
+```
+
+
+
+## Caratteristiche
+
+```{r, echo=TRUE}
+
+# numero di colonne (variabili)
+ncol(d)
+
+# numero di righe (osservazioni)
+nrow(d)
+
+# nomi delle variabili
+names(d)
+
+# nomi delle osservazioni (stampo solo i primi 10)
+rownames(d)[1:10]
+```
+
+
+
+
+
+
+
+## Selezione
+
+```{r, echo=TRUE}
+# ultime 3 righe del dataset
+sel <- d[(45:47),]
+
+# colonna relativa all'istruzione (due modi equivalenti)
+ed <- d[,4]
+ed <- d$Education
+
+# province con fertilità maggiore o uguale a 80
+sel <- d[d$Fertility >= 80,]
+
+# istruzione delle province con mortalità infantile maggiore di 22
+selEd <- d[d$Infant.Mortality > 22,]$Education
+```
+
+
+
+## Esercizi
+
+Selezionare:
+
+1) dataframe tranne le prime 10 righe
+
+2) dataframe escludendo le colonne \texttt{Agriculture} e \texttt{Catholic}
+
+3) solo le righe 10, 20 e 30, e solo le colonna 1 e 2
+
+4) province con mortalità infantile minore di 18
+
+5) province con perc. di cattolici superiore a 90\% e indice di istruzione uguale a 7
+
+6) province con fertilità inferiore a 50 oppure superiore a 90
+
+7) fertilità delle province con \texttt{Examination} diverso da 14
+
+
+
+## Soluzioni
+
+```{r, echo=TRUE}
+# 1) dataframe tranne le prime 10 righe
+sel <- d[-(1:10),]
+
+# 2) dataframe escludendo le colonne Agriculture e Catholic
+sel <- d[,-c(2,5)]
+
+# 3) solo le righe 10, 20 e 30, e solo le colonna 1 e 2
+sel <- d[c(10,20,30), c(1,2)]
+
+# 4) province con mortalità infantile minore di 18
+sel <- d[d$Infant.Mortality < 18,]
+
+# 5) province con perc. di cattolici superiore a 90
+# e indice di istruzione uguale a 7
+sel <- d[(d$Catholic > 90) & (d$Education==7),]
+
+# 6) province con fertilità inferiore a 50 oppure superiore a 90
+sel <- d[(d$Fertility < 50) | (d$Fertility > 90),]
+
+# 7) fertilità delle province con Examination diverso da 14
+selFert <- d[d$Examination != 14,]$Fertility
+```
+
+
+
+
+## Aggiunta di variabili
+
+```{r, echo=TRUE}
+# nuova colonna che numera le osservazioni
+d$id <- 1:nrow(d)
+
+# nuova colonna Catholic2:
+# 0 se la perc. di cattolici è bassa (perc. <= 10)
+# 1 se è media (10 < perc. < 90)
+# 2 se è alta (perc. >= 90)
+d$Catholic2 <- 1
+d[d$Catholic <= 10,]$Catholic2 <- 0
+d[d$Catholic >= 90,]$Catholic2 <- 2
+
+# variabile categoriale: la trasformo in fattore
+d$Catholic2 <- factor(d$Catholic2)
+
+summary(d$Catholic2)
+```
+
+
+
+
+
+## Istogramma
+
+```{r, echo=TRUE}
+hist(d$Fertility,
+     xlab="fertilità", ylab="frequenze assolute", col="lightblue", main="")
+```
+
+
+## Boxplot
+
+```{r, echo=TRUE}
+boxplot(d$Fertility,
+        xlab="fertilità", ylab="", col="lightblue")
+```
+
+
+## Boxplot condizionato
+
+```{r, echo=TRUE}
+boxplot(d$Fertility ~ d$Catholic2,
+        xlab="perc. cattolici", ylab="fertilità", col="lightblue")
+```
+
+
+## Grafico a dispersione
+
+```{r, echo=TRUE}
+plot(d$Catholic, d$Fertility,
+     xlab="perc. cattolici", ylab="fertilità", pch=16)
+```
+
+
+
+
+
