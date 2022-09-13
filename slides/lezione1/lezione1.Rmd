@@ -12,6 +12,30 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# Le strutture dati
+
+## Strutture dati in R
+
+qui una slide riassuntiva delle strutture dati
+
+- organizzare dati con dei vincoli
+- metodi per accedere/modificare/aggiungere dati in modo chiaro
+- metodi per far interagire la struttura dati con specifiche funzioni
+
+## Esempio - il foglio Excel
+
+il foglio excel è una struttura dati che sicuramente conoscete
+
+- righe e colonne formano un "rettangolo" di dati
+- la prima riga sono i nomi delle colonne
+- ogni colonna deve contenere lo stesso tipo di dati ma le colonne possono essere di diversa tipologia
+
+## Esempio - il foglio Excel
+
+```{r, out.width="90%"}
+knitr::include_graphics("img/excel.png")
+```
+
 
 # Vettori e matrici
 
@@ -150,13 +174,11 @@ str(d)
 ```
 
 
-
 ## Prime righe del dataframe
 
 ```{r, echo=TRUE}
 head(d)
 ```
-
 
 
 ## Caratteristiche
@@ -175,11 +197,6 @@ names(d)
 # nomi delle osservazioni (stampo solo i primi 10)
 rownames(d)[1:10]
 ```
-
-
-
-
-
 
 
 ## Selezione
@@ -304,8 +321,4 @@ boxplot(d$Fertility ~ d$Catholic2,
 plot(d$Catholic, d$Fertility,
      xlab="perc. cattolici", ylab="fertilità", pch=16)
 ```
-
-
-
-
 
