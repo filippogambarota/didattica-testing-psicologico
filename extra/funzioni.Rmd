@@ -1,0 +1,133 @@
+---
+title: "Funzioni in R"
+output: 
+    bookdown::html_document2:
+        toc: true
+        toc_float: true
+self_contained: true
+css: ["css/course_html.css"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduzione
+
+Le funzioni sono sicuramente l'aspetto fondamentale di R (e anche di tutti gli altri linguaggi di programmazione). Tutte le cose che facciamo in R sono delle funzioni:
+
+```{r}
+c(1, 2, 3) # applico la funzione c con gli argomenti 1, 2, 3
+(x <- 10) # applico la funzione assegnazione <- con argomenti x e 10
+summary(iris) # applico la funzione summary con l'argomento iris
+sum(1:10) # applico la funzione somma con i numeri da 1 a 10
+```
+
+Tutte le funzioni quindi applicano una o più operazioni agli elementi in input e restituiscono un output. Di (quasi) tutte le funzioni è possibile vedere il *codice sorgente* ovvero il codice che è racchiuso dentro la funzione. Ad esempio è possibile visualizzare cosa fa la funzione `summary` quando viene applicata ad un dataframe:
+
+```{r}
+getAnywhere('summary.data.frame')
+```
+
+Per applicare una funzione è importante sapere:
+
+- lo scopo della funzione
+- gli argomenti
+- cosa restituisce in output
+- capire gli eventuali messaggi/warnings/errori
+
+Per visualizzare le informazioni di una funzione possiamo usare la funzione `help(nomefunzione)` oppure scrivere `?nomefunzione`:
+
+```{r, eval = FALSE}
+help(sum)
+?sum
+```
+
+Leggendo la *documentazione* capiamo che la funzione `sum` ha 2 argomenti principali:
+
+- `...` chiamati `dot-dot-dot` che sono un modo flessibile di ricevere in input un argomento. Di base se forniamo un vettore numerico la funzione `sum` restituirà la somma ma 
+- `na.rm` che regola il comportamento della funzione nel caso di `NA` nel vettore in input
+
+
+Vediamo un esempio pratico:
+
+```{r}
+x <- 1:10
+sum(x)
+
+sum(1:10) # posso anche dare direttamente i valori
+sum(1,2,3) # posso dare i valori separati da virgola
+
+x[11] <- NA # aggiungo un NA
+
+sum(x, na.rm = FALSE) # il default
+sum(x, na.rm = TRUE) # dico di non considerare gli NA
+```
+
+# Funzioni personalizzate
+
+Lo scopo principale di una funzione è quindi incapsulare una parte di codice e renderla generalizzabile in modo da poterla applicare più volte dove quella specifica operazione è richiesta. E' possibile (e molto utile) infatti scrivere delle funzioni personalizzate che analogalmente a `sum` facciano in modo chiaro una specifica operazione. Facciamo un esempio creando una funzione che sommi due numeri insieme che verranno forniti in input. Per farlo dobbiamo:
+
+- pensiamo alle operazioni in modo astratto
+- scriviamo la funzione in linguaggio R
+- la testiamo su diverse tipologie di dato
+
+La somma di due (o più) numeri in R si ottiene con la funzione `+` (si anche questa è una funzione).
+
+```{r}
+# sintassi di una funzione personalizzata
+
+my_fun <- function(argomento1, argomento2, ...){
+    # operazioni
+}
+```
+
+Per creare la nostra funzione quindi:
+
+```{r}
+# somma di due numeri x e y in input
+
+my_fun <- function(x, y){ # l'input della funzione
+    somma <- x + y
+    return(somma) # l'output della funzione
+}
+```
+
+A questo punto la funzione viene creata e salvata nel workspace come un normale oggetto. Da quel momento è possibile utilizzarla nel nostro script:
+
+```{r}
+my_fun(1, 2)
+my_fun(10, 22)
+my_fun(100, 200)
+```
+
+Proviamo a scrivere una funzione più complessa, ad esempio ricreare la funzione somma in R. La somma di una serie di numeri consiste nel sommare primo numero con il secondo, mettere da parte questa somma e poi sommarla al terzo e cosi via. In programmazione questo si chiama `iterazione` e possiamo ottenerla con un ciclo `for`.
+
+```{r}
+my_sum <- function(x, na.rm = FALSE){
+    if(na.rm){
+        x <- x[!is.na(x)]
+    }
+    somma <- 0
+    for(i in seq_along(x)){
+        somma <- somma + x[i]
+    }
+    return(somma)
+}
+```
+
+Anche se non capite tutto quello che ho scritto come vedete la funzione `my_sum` restituisce lo stesso risultato di `sum`. Questo per farvi capire che anche le funzioni già implementate in R sono state scritte nello stesso modo del nostro esempio (in modo molto più raffinato):
+
+```{r}
+sum(1:10)
+my_sum(1:10)
+
+# con NA
+sum(c(1:10, NA))
+my_sum(c(1:10, NA))
+
+# con NA
+sum(c(1:10, NA), na.rm = TRUE)
+my_sum(c(1:10, NA), na.rm = TRUE)
+```
+
