@@ -19,6 +19,32 @@ output:
 options(htmltools.dir.version = FALSE)
 ```
 
+# About me
+
+- `r emo::ji("university")` Sono uno **Psicologo** e **Dottorando** al Dipartimento di Psicologia dello Sviluppo e della Socializzazione. Lavoro con la *prof.ssa Paola Sessa* ed i *prof. Gianmarco Altoè* e *Massimiliano Pastore*.
+
+- `r emo::ji("research")` Mi occupo di **elaborazione subliminale di stimoli in memoria**, **elaborazione di volti ed espressioni facciali** e dal punto di vista metodologico-statistico di **metanalisi**.
+
+.pull-left[
+.small[
+
+Se volete contattarmi o vedere su cosa lavoro `r emo::ji("wink")`:
+  - `r icons::fontawesome("github")` [filippogambarota](github.com/filippogambarota)
+  - `r emo::ji("globe")` [filippogambarota.xyz](filippogambarota.xyz)
+  - `r icons::academicons("google-scholar")` [Google Scholar](https://scholar.google.com/citations?user=f836QNAAAAAJ&hl=en)
+  - `r icons::fontawesome("envelope")` [filippo.gambarota@phd.unipd.it](mailto:filippo.gambarota@phd.unipd.it)
+  ]
+]
+
+.pull-right[
+
+```{r, out.width="50%", echo=FALSE, fig.align='center'}
+knitr::include_graphics("img/logo_psicostat.png")
+```
+]
+
+---
+
 class: center, middle, inverse
 
 # Qualche indicazione generale... `r emo::ji("wink")`

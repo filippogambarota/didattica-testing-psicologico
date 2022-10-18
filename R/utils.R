@@ -174,3 +174,13 @@ xaringan_to_pdf <- function(
   
   invisible(output_file)
 }
+
+compile_slides <- function(){
+  all_rmd <- list.files("slides", pattern = "Rmd", full.names = TRUE, recursive = TRUE)
+  
+  for(i in 1:length(all_rmd)){
+    html <- rmarkdown::render(all_rmd[i], clean = TRUE, quiet = TRUE)
+    testingPsicologico::xaringan_to_pdf(input = html, include_partial_slides = TRUE)
+  }
+  
+}
