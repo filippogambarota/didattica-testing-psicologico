@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # Testing Psicologico
 
-Questa repository contiene il materiale per la parte di *didattica integrativa* del corso **Testing Psicologico**. Le slides delle lezioni sono un adattamento del materiale creato dalla dott.ssa [Anna Vesely](https://www.linkedin.com/in/annavesely/) con diverse aggiunte e approfondimenti.
+Questa repository contiene il materiale per la parte di *didattica integrativa* del corso **Testing Psicologico**. Le slides delle lezioni sono un adattamento del materiale creato dalla dott.ssa [Anna Vesely](https://www.linkedin.com/in/annavesely/) con diverse modifiche, aggiunte e approfondimenti.
 
 ## Lezioni
 
@@ -33,8 +33,15 @@ Tutto il materiale/link saranno riportati anche su Moodle
 
 - Lezione 0 - [HTML](slides/lezione0/lezione0.html), [PDF](slides/lezione0/lezione0.pdf)
 
+## Altri materiali
+
+- [Funzioni](https://downgit.github.io/#/home?url=https://github.com/filippogambarota/didattica-testing-psicologico/tree/master/R): tutte le funzioni create che usiamo durante il corso
+- [Dati](https://downgit.github.io/#/home?url=https://github.com/filippogambarota/didattica-testing-psicologico/tree/master/data): tutti i datasets nei vari formati che usiamo durante il corso
+
 ## Link Utili
 
 - [Importare i dati in R](https://filippogambarota.github.io/corsoR/extra/importing_data.html): importare i dati è un elemento essenziale ma non sempre è un processo semplice ed intuitivo. In questo link proviamo a vedere la logica generale e coprire le principali casistiche che possono succedere nel lavoro pratico
 - [Gestire un progetto in R](https://www.youtube.com/watch?v=MvdVqB5brZo): gestire un progetto con script, dati esterni e output può essere complesso. In questo video vediamo come organizzare un progetto di analisi dei dati usando uno strumento disponibile in **R Studio** chiamato **R Project**
 - [Funzioni utili in R](extra/funzioni.html)
+
+# Programma (aggiornato il `r Sys.Date()`)
