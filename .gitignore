@@ -51,6 +51,10 @@ rsconnect/
 # project specific
 
 local/
-slides/
+slides/lezione1a/**
+slides/lezione1b/**
+slides/lezione2/**
+slides/lezione3/**
+slides/lezione4/**
 note.md
 argomenti.md
