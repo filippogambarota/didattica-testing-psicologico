@@ -116,8 +116,17 @@ class: center, middle, inverse
 
 # Ricapitolando...
 
-- Partecipate! è un momento di approfondimento che vi potrebbe essere utile per la tesi e per la vostra carriera universitaria
-- Fate domande, provate a fare gli esercizi e proporre una soluzione e chiedete approfondimenti (sono qui apposta `r emo::ji("wink")`)
+--
+
+- **Partecipate**! è un momento di approfondimento che vi potrebbe essere utile per la tesi e per la vostra carriera universitaria
+
+--
+
+- Fate **domande**, provate a fare gli **esercizi**, proporre una soluzione (ed eventualmente **sbagliare**) e chiedete **approfondimenti** (sono qui apposta `r emo::ji("wink")`)
+
+--
+
+- **Non ci sono domande intelligenti o stupide** (sopratutto in statistica e in programmazione con R) quindi fatele perchè se vi rimane il dubbio poi fate fatica a dormire `r emo::ji("smile")`
 
 ---
 

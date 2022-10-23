@@ -184,3 +184,7 @@ compile_slides <- function(){
   }
   
 }
+
+solutions_meme <- function(){
+  knitr::include_graphics(here::here('files/img/think-meme.jpg'))
+}

@@ -1,0 +1,382 @@
+---
+title: "Testing Psicologico"
+subtitle: "Lezione 1b"
+author: "Filippo Gambarota"
+institute: "@Università di Padova"
+date: "24/10/2022"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: ["../files/default.css", "default-fonts"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, max.print = 10)
+knitr::opts_chunk$set(dev = 'svg') # set output device to svg
+```
+
+---
+
+class: center, middle, inverse
+
+# Matrici
+
+---
+
+.middle-center[Dubbi/Domande? `r emo::ji("thinking")`]
+
+---
+# Piccolo ripasso...
+
+- Le matrici sono una struttura dati **bidimensionale** che contengono **una sola tipologia** di elementi
+- Le proprietà fondamentali sono la tipologia (`str(matrice)`) e le dimensioni (`dim(matrice)`, `ncol(matrice)`, `nrow(matrice)`)
+
+```{r, out.width="60%", echo=FALSE}
+knitr::include_graphics("img/matrix.png")
+```
+
+---
+
+class: inverse, center, middle
+
+# Indicizzazione Matrici
+
+---
+# Indicizzazione Matrici
+
+- Le matrici seguono la stessa logica dei vettori in termini di indicizzazione con la differenza di ragionare in modo bidimensionale $[righe, colonne]$
+- Possiamo però anche usare l'indicizzazione logica e ovviamente intera
+
+```{r}
+mat <- matrix(data = sample(1:30, 25, replace = TRUE),
+              nrow = 5,
+              ncol = 5,
+              byrow = TRUE)
+mat > 10 # tutti i numeri > 10
+mat == 10 # tutti i numeri uguali a 10
+```
+
+---
+# Indicizzazione Matrici
+
+Possiamo quindi usare questa matrice logica (come con il vettore logico) per selezionare gli elementi:
+
+```{r}
+mat[mat > 10]
+mat[mat == 10]
+```
+
+---
+# Indicizzazione Matrici
+
+Come vedete il risultato è un *vettore*. In pratica è come *srotolare* la matrice e poi trattarla esattamente come un vettore:
+
+```{r}
+matv <- c(mat) # la funzione c permette di srotolare la matrice, anche con as.vector(mat)
+matv
+matv[matv > 10] # equivalente a mat[mat > 10]
+```
+
+---
+# Matrici - Esercizi
+
+1.Create la seguente **matrice**:
+
+$$
+\begin{bmatrix}
+3 & 5 & 11 \\
+2 & 99 & 4 \\
+2 & 55 & 100 \\
+1 & 0 & 3 
+\end{bmatrix}
+$$
+
+2.Data la matrice 1:
+
+  - accedere al numero di dimensioni
+  - accedere alla terza colonna
+  - accedere agli elementi $x_1 = [3, 1]$ e $x_2 = [4, 2]$, cosa notate?
+  - estraete dalla matrice tutti i numeri maggiori di 50
+  - estraete dalla matrice tutti i numeri pari (vedi l'operatore `%%`)
+  - sostituite tutti gli elementi dispari con il numero 0
+  - aggiungete una colonna con i numeri $[1, 2, 3, 4]$
+  - togliete la colonna 2
+
+3.Creare la seguente **matrice**, cosa notate?
+
+$$
+\begin{bmatrix}
+a & b & 11 \\
+1 & 22 & 4 \\
+4 & 55 & h \\
+1 & d & 3 
+\end{bmatrix}
+$$
+---
+# Matrici - Esercizi
+
+4.Create una matrice formata da 30 lettere dell'alfabeto in modo random (vedi il comando `sample()` e l'oggetto `letters`) con numero di righe e colonne a vostra scelta. cosa notate rispetto alla matrice 1?
+
+---
+
+# Soluzioni
+
+```{r, error=TRUE}
+mat <- matrix(data = c(3,5,11,2,99,4,2,55,100,1,0,3),
+              nrow = 4,
+              ncol = 3,
+              byrow = TRUE)
+dim(mat)
+mat[, 3] # mat[1:4, ], cosa cambia?
+mat[3, 1]
+mat[5, 2]
+```
+
+---
+# Soluzioni
+
+```{r}
+mat[mat > 50]
+mat[mat %% 2 == 0]
+```
+
+---
+class: inverse, center, middle
+
+# Dataframe
+
+---
+
+.middle-center[Dubbi/Domande? `r emo::ji("thinking")`]
+
+---
+
+# Piccolo ripasso...
+
+--
+
+- Il dataframe è una struttura dati **bidimensionale** (come la matrice), può contenere **più tipologie di dati** (come la lista)
+
+--
+
+- E' un tipo particolare di **lista** dove la **lunghezza** di ogni elemento è fissa (vincolo) portando ad una **struttura rettangolare**
+
+--
+
+- E' la *traduzione* in codice del foglio di calcolo Excel
+
+---
+# Piccolo ripasso...
+
+Ci sono diversi dataframe già presenti in R come oggetti. Vediamo quello più semplice ovvero `iris`:
+
+```{r}
+head(iris)
+str(iris)
+class(iris)
+```
+
+---
+# Piccolo ripasso...
+
+Per accedere al dataframe usiamo un mix tra funzioni per le matrici (da cui prende la struttura rettangolare) e liste (da cui prende la flessibilità del tipo di dato):
+
+```{r}
+iris$Sepal.Length # prima colonna/elemento
+iris[[1]] # prima colonna/elemento
+iris[, 1] # prima colonna
+```
+
+---
+class: inverse, center, middle
+
+# Indicizzazione dataframe
+
+---
+
+# Indicizzazione dataframe
+
+E' importante capire che a prescindere dalla complessità della struttura dati (vettore vs dataframe) quando selezioniamo delle righe/colonne non facciamo altro che *combinare operazioni logiche*, ottenere un vettore di `TRUE`/`FALSE` o di `interi` e con questo vettore indicare quali righe/colonne selezionare.
+
+```{r}
+my_sel_log <- iris$Species == "Setosa"
+my_sel_log # vettore logico TRUE/FALSE
+my_sel_int <- which(my_sel_log) # vettore di interi
+
+iris[my_sel_log, ] # selezione logica
+iris[my_sel_int, ] # selezione intera
+```
+
+---
+
+class: extra-section, center, middle
+
+# Extra: Importare dati
+
+---
+class: extra
+
+# Importare dati
+
+- La maggior parte delle analisi dati prevede di importare partendo da formati diversi (`xlsx`, `csv`, `sav`, `txt`, etc.) un dataset.
+- Importare i dati è tutt'altro che banale e richiede una comprensione di come i vari formati codificano le informazioni fondamentali, in particolare la delimitazione dei valori
+- `csv` ad esempio significa **c**omma **d**elimited **v**alues dove i valori sono delimitati da una virgola. R deve sapere il tipo di file e il delimitatore per leggere correttamente i dati
+
+Per approfondire [questo documento](https://filippogambarota.github.io/corsoR/extra/importing_data.html) è una buona introduzione
+
+---
+class: inverse, center, middle
+
+# Esempio
+
+---
+
+# Esempio
+
+```{r}
+# importiamo i dati
+dat <- read.csv("../../data/pazienti.csv", sep = ",", header = TRUE, fileEncoding="UTF-8-BOM")
+
+str(dat) # struttura
+nrow(dat) # numero di righe (osservazioni)
+ncol(dat) # numero di colonne (variabili)
+colnames(dat) # nomi delle colonne (variabili)
+```
+
+---
+# Esempio
+
+Lavorare in un dataframe segue la stessa logica di un foglio excel. Possiamo **filtrare** le righe e/o colonne in funzione di determinate *condizioni*:
+
+```{r}
+# seleziono solo i pazienti con nevrosi e tutte le colonne
+dat[dat$disturbo == "nevrosi", ]
+
+# seleziono solo i pazienti con età maggiore di 30
+dat[dat$eta > 30, ]
+
+# seleziono i pazienti con ansia maggiore di 3 E provenienti dal veneto
+dat[dat$ansia > 3 & dat$regione == "Veneto", ]
+```
+
+---
+
+# Esercizi
+
+1. Importa il dataframe `pazienti_sc.csv` (attenzione al *separatore*)
+2. Estrai la struttura, il numero di colonne/righe
+3. Estrai le righe 1, 10, 15, e 30
+4. Estrai le righe da 1 a 15 e la 1 e 4 colonna
+5. Estrai le osservazioni di pazienti provenienti dalla Liguria O dal Piemonte di classe sociale Alta e disturbi NON fobici
+6. Estrai le osservazioni con età compresa tra 20 e 45 anni
+
+---
+# Soluzioni
+
+```{r}
+dat <- read.csv("../../data/pazienti_sc.csv", sep = ";", header = TRUE, fileEncoding="UTF-8-BOM") # importo
+
+# struttura, righe e colonne
+str(dat)
+nrow(dat)
+ncol(dat)
+```
+
+---
+# Soluzioni
+
+.small[
+
+```{r}
+dat[c(1, 10, 15, 30), ] # righe 1, 10, 15 e 30
+dat[1:15, c(1, 4)] # righe 1:15 e colonna 1 e 4
+dat[(dat$regione == "Liguria" | dat$regione == "Piemonte") & dat$cl.sociale == "Alta" & dat$disturbo != "fobico", ] # pazienti provenienti dalla Liguria O dal Piemonte di classe sociale Alta e disturbi NON fobici
+dat[dat$eta > 20 & dat$eta < 45, ] # eta compresa tra 20 e 45
+```
+]
+
+---
+
+class: inverse, center, middle
+
+# EDA - Exploratory Data Analysis
+
+---
+
+# Nuove colonne
+
+Possiamo aggiungere nuove informazioni (colonne) per aggiungere informazioni o modificare quelle esistenti:
+
+```{r}
+# aggingiamo una colonna che indica alta o bassa ansia basandoci su un cut-off di 4
+dat$ansia_cut <- ifelse(dat$ansia > 4, yes = "alta", no = "bassa")
+
+# convertiamo la classe sociale in un fattore ordinato (scala ordinale)
+dat$cl.sociale <- factor(dat$cl.sociale, ordered = TRUE)
+
+str(dat)
+```
+
+---
+# Esplorazione
+
+Ogni tipo di variabile è associata a determinate statistiche descrittive (e.g., *media* vs *frequenza*) e rappresentazioni grafiche (e.g., *barplot* vs *boxplot*).
+
+- ha senso calcolare la media della variabile `disturbo`?
+- ha senso calcolare le frequenze della variabile `ansia`?
+
+---
+# Esplorazione
+
+Facciamo un istogramma per le variabili numeriche:
+
+```{r, fig.width=10, fig.height=5}
+par(mfrow = c(1,2))
+hist(dat$eta, col = "lightblue")
+hist(dat$ansia, col = "pink")
+```
+
+---
+# Esplorazione
+
+Facciamo un grafico a barre per le variabili categoriali/ordinali
+
+```{r, fig.width=10, fig.height=5}
+par(mfrow = c(1,2))
+barplot(table(dat$cl.sociale), col = "lightgreen")
+barplot(table(dat$disturbo), col = "firebrick2")
+```
+
+---
+# Explorazione - Grafici bi-variati
+
+Possiamo vedere la distribuzione di una variabile numerica *in funzione* di una categoriale:
+
+```{r, fig.width=10, fig.height=5}
+par(mfrow = c(1,2))
+boxplot(ansia ~ disturbo, data = dat, col = c("salmon", "lightgreen", "lightblue", "pink"))
+boxplot(ansia ~ cl.sociale, data = dat)
+```
+
+---
+# Esplorazione - Grafici bi-variati
+
+Possiamo anche vedere la distribuzione di due variabili categoriali facendo un barplot ed una tabella di contingenza:
+
+```{r, fig.width=10, fig.height=5}
+barplot(table(dat$cl.sociale, dat$disturbo), col = c("salmon", "lightgreen", "lightblue"))
+legend("topright", legend=unique(dat$cl.sociale), pch=16, col = c("salmon", "lightgreen", "lightblue"))
+```
+
+
+
+
+
+
+
+
