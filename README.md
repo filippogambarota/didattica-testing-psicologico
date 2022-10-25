@@ -11,7 +11,7 @@ aggiunte e approfondimenti.
 
 ## Lezioni
 
-Le lezioni si tengono in **aula 4L a Psico 2** con orario
+Le lezioni si tengono in **aula A a Psico 3** con orario
 **16:30-18:00**. Il consiglio è quello di portarsi il proprio computer
 in modo da fare insieme gli esercizi.
 
