@@ -33,6 +33,8 @@ Tutto il materiale/link saranno riportati anche su Moodle
 
 - Lezione 0 - [HTML](slides/lezione0/lezione0.html),
   [PDF](slides/lezione0/lezione0.pdf)
+- Lezione 1a - [HTML](slides/lezione1a/lezione1a.html),
+  [PDF](slides/lezione1/lezione1a.pdf)
 
 ## Altri materiali
 
@@ -56,4 +58,10 @@ Tutto il materiale/link saranno riportati anche su Moodle
   uno strumento disponibile in **R Studio** chiamato **R Project**
 - [Funzioni utili in R](extra/funzioni.html)
 
-# Programma (aggiornato il 2022-10-23)
+# Programma (aggiornato il 2022-10-25)
+
+## 24/10/2022 - Comandi di base e vettori
+
+- [Script](scripts/lezione1.R) con i comandi visti in classe
+- Sulle slide sono stati aggiunti degli approfondimenti rispetto ai
+  vettori
