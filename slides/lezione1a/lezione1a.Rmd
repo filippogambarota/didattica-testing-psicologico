@@ -1,6 +1,6 @@
 ---
 title: "Testing Psicologico"
-subtitle: "Lezione 1A - Comandi di base, vettori e liste"
+subtitle: "Lezione 1A - Comandi di base e vettori"
 author: "Filippo Gambarota"
 institute: "@Università di Padova"
 date: "2022-2023"

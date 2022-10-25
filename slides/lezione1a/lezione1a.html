@@ -200,7 +200,7 @@ class: center, middle, inverse, title-slide
 # Testing Psicologico
 ]
 .subtitle[
-## Lezione 1A - Comandi di base, vettori e liste
+## Lezione 1A - Comandi di base e vettori
 ]
 .author[
 ### Filippo Gambarota
@@ -528,7 +528,7 @@ my_selection
 ```
 
 ```
-##  [1]  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+##  [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE
 ```
 
 ```r
@@ -536,7 +536,7 @@ my_vec[my_selection]
 ```
 
 ```
-## [1] 1 2 7 8 9
+## [1] 1 2 4 6 7
 ```
 
 ---
@@ -599,7 +599,7 @@ which(my_vec &lt; 0.5)
 ```
 
 ```
-## [1]  2  3  4  7 10
+## [1]  1  3  5  7  8  9 10
 ```
 
 ```r
@@ -609,7 +609,7 @@ my_vec[which(my_vec &lt; 0.5)]
 ```
 
 ```
-## [1] -1.6777934 -1.1387606 -1.2625558 -0.8143201  0.1765331
+## [1] -0.0953559 -1.2766477 -0.8665395 -0.2756130 -1.0518479 -1.6594314 -0.2746766
 ```
 
 ```r
@@ -619,7 +619,7 @@ my_vec[my_vec &lt; 0.5]
 ```
 
 ```
-## [1] -1.6777934 -1.1387606 -1.2625558 -0.8143201  0.1765331
+## [1] -0.0953559 -1.2766477 -0.8665395 -0.2756130 -1.0518479 -1.6594314 -0.2746766
 ```
 
 ---
@@ -633,7 +633,7 @@ my_vec[-c(1, 5, 7)] # escludo gli elementi alla posizione 1, 5 e 7
 ```
 
 ```
-## [1] -1.6777934 -1.1387606 -1.2625558  0.5076335  0.5727499  0.6241689  0.1765331
+## [1]  1.7258353 -1.2766477  1.2436106  1.5034209 -1.0518479 -1.6594314 -0.2746766
 ```
 
 ```r
@@ -641,7 +641,7 @@ my_vec[!my_vec &gt; 0.5] # escludo gli elementi &gt; di 0.5
 ```
 
 ```
-## [1] -1.6777934 -1.1387606 -1.2625558 -0.8143201  0.1765331
+## [1] -0.0953559 -1.2766477 -0.8665395 -0.2756130 -1.0518479 -1.6594314 -0.2746766
 ```
 
 Ovviamente assegnando il risultato `&lt;-` delle operazioni precedenti ad un nuovo oggetto o allo stesso creiamo un subset del vettore iniziale
@@ -653,7 +653,7 @@ my_vec_new
 ```
 
 ```
-## [1] -1.6777934 -1.1387606 -1.2625558  0.5076335  0.5727499  0.6241689  0.1765331
+## [1]  1.7258353 -1.2766477  1.2436106  1.5034209 -1.0518479 -1.6594314 -0.2746766
 ```
 
 ---
@@ -669,8 +669,8 @@ my_vec_new
 ```
 
 ```
-##  [1] 999.0000000  -1.6777934  -1.1387606  -1.2625558 999.0000000 999.0000000
-##  [7]  -0.8143201 999.0000000 999.0000000   0.1765331
+##  [1]  -0.0953559 999.0000000  -1.2766477 999.0000000  -0.8665395 999.0000000
+##  [7]  -0.2756130  -1.0518479  -1.6594314  -0.2746766
 ```
 
 ```r
@@ -680,8 +680,8 @@ my_vec_new
 ```
 
 ```
-##  [1] 888.0000000 888.0000000  -1.1387606  -1.2625558 888.0000000   0.5076335
-##  [7]  -0.8143201   0.5727499   0.6241689   0.1765331
+##  [1] 888.0000000 888.0000000  -1.2766477   1.2436106 888.0000000   1.5034209
+##  [7]  -0.2756130  -1.0518479  -1.6594314  -0.2746766
 ```
 
 ```r
@@ -691,10 +691,10 @@ my_vec_new  # cosa notate?
 ```
 
 ```
-##  [1] &quot;0.793546840968744&quot;  &quot;ciao&quot;               &quot;-1.13876055123349&quot; 
-##  [4] &quot;-1.26255584591811&quot;  &quot;1.16920920681376&quot;   &quot;0.5076335298916&quot;   
-##  [7] &quot;-0.814320063700798&quot; &quot;0.572749931098543&quot;  &quot;0.624168858103031&quot; 
-## [10] &quot;0.176533086400558&quot;
+##  [1] &quot;-0.0953558966156517&quot; &quot;ciao&quot;                &quot;-1.27664773794756&quot;  
+##  [4] &quot;1.24361061281719&quot;    &quot;-0.866539460853534&quot;  &quot;1.50342090004276&quot;   
+##  [7] &quot;-0.275613026265776&quot;  &quot;-1.05184791087826&quot;   &quot;-1.6594314440907&quot;   
+## [10] &quot;-0.274676632794403&quot;
 ```
 
 ---
@@ -745,7 +745,7 @@ vec_let
 ```
 
 ```
-##  [1] &quot;c&quot; &quot;b&quot; &quot;d&quot; &quot;c&quot; &quot;b&quot; &quot;e&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;d&quot;
+##  [1] &quot;d&quot; &quot;e&quot; &quot;a&quot; &quot;d&quot; &quot;e&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;e&quot;
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 20 entries ]
 ```
 
@@ -754,7 +754,7 @@ vec_let[vec_let == &quot;a&quot;] # 3.1
 ```
 
 ```
-## [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot;
+## [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot;
 ```
 
 ```r
@@ -762,8 +762,8 @@ vec_let[vec_let == &quot;a&quot; | vec_let == &quot;b&quot; | vec_let == &quot;c
 ```
 
 ```
-##  [1] &quot;c&quot; &quot;b&quot; &quot;c&quot; &quot;b&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;c&quot; &quot;b&quot; &quot;c&quot;
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 entries ]
+##  [1] &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;b&quot; &quot;a&quot; &quot;c&quot; &quot;b&quot; &quot;c&quot;
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 9 entries ]
 ```
 
 ---
@@ -777,8 +777,8 @@ vec_let[vec_let != &quot;a&quot;] # 3.3
 ```
 
 ```
-##  [1] &quot;c&quot; &quot;b&quot; &quot;d&quot; &quot;c&quot; &quot;b&quot; &quot;e&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot;
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 16 entries ]
+##  [1] &quot;d&quot; &quot;e&quot; &quot;d&quot; &quot;e&quot; &quot;b&quot; &quot;b&quot; &quot;e&quot; &quot;b&quot; &quot;c&quot; &quot;b&quot;
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 13 entries ]
 ```
 
 ```r
@@ -787,7 +787,7 @@ vec_int
 ```
 
 ```
-##  [1]  79  85  27 115 103 142 101 108  45  29
+##  [1]  80 126 148 146 116 102  93  77  28  68
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 40 entries ]
 ```
 
@@ -796,8 +796,8 @@ vec_int[vec_int &gt; 50] # 4.1
 ```
 
 ```
-##  [1]  79  85 115 103 142 101 108  80  93  88
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 24 entries ]
+##  [1]  80 126 148 146 116 102  93  77  68 107
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 27 entries ]
 ```
 
 ```r
@@ -805,8 +805,8 @@ vec_int[vec_int &lt; 100] # 4.2
 ```
 
 ```
-##  [1] 79 85 27 45 29 80 93 88 43 65
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 26 entries ]
+##  [1] 80 93 77 28 68 27 37 82 53 23
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 24 entries ]
 ```
 
 ---
@@ -820,7 +820,7 @@ vec_int[seq(2, 50, 2)] # 4.3 # indicizzazione intera
 ```
 
 ```
-##  [1]  85 115 142 108  29  93 108  65  68  75
+##  [1] 126 146 102  77  68  27 116  53 142  78
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 15 entries ]
 ```
 
@@ -829,8 +829,8 @@ vec_int[vec_int %% 2 == 0 &amp; vec_int &lt; 100] # 4.4
 ```
 
 ```
-##  [1] 80 88 34 68 36 42 74 62 44 98
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 7 entries ]
+##  [1] 80 28 68 82 78 92 26 62 80 64
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 6 entries ]
 ```
 
 ---
@@ -888,7 +888,7 @@ paste0(&quot;1_&quot;, numeri, &quot;_&quot;, lettere)
 ```
 
 ```
-## [1] &quot;1_797_fpy&quot;
+## [1] &quot;1_565_rmk&quot;
 ```
 
 ```r
@@ -897,8 +897,8 @@ codice
 ```
 
 ```
-##  [1] &quot;1_2_2000&quot;  &quot;2_3_1996&quot;  &quot;3_12_2001&quot; &quot;4_3_1996&quot;  &quot;5_3_1994&quot;  &quot;6_10_1999&quot;
-##  [7] &quot;7_4_1995&quot;  &quot;8_1_2001&quot;  &quot;9_4_1996&quot;  &quot;10_6_1997&quot;
+##  [1] &quot;1_5_1994&quot;  &quot;2_9_1996&quot;  &quot;3_3_1998&quot;  &quot;4_2_1998&quot;  &quot;5_6_1999&quot;  &quot;6_4_1995&quot; 
+##  [7] &quot;7_4_1997&quot;  &quot;8_1_1998&quot;  &quot;9_9_1995&quot;  &quot;10_3_2000&quot;
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 10 entries ]
 ```
 
@@ -924,7 +924,7 @@ item1
 ```
 
 ```
-##  [1] 1 1 2 5 2 2 5 5 5 4
+##  [1] 1 5 4 3 2 3 1 1 4 1
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 20 entries ]
 ```
 
@@ -962,7 +962,7 @@ car::recode(item1, &quot;1=5; 2=4; 3=3; 4=2; 5=1&quot;)
 ```
 
 ```
-##  [1] 5 5 4 1 4 4 1 1 1 2
+##  [1] 5 1 2 3 4 3 5 5 2 5
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 20 entries ]
 ```
 
@@ -981,7 +981,7 @@ dplyr::case_when(item1 == 1 ~ 5,
 ```
 
 ```
-##  [1] 5 5 4 1 4 4 1 1 1 2
+##  [1] 5 1 2 3 4 3 5 5 2 5
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 20 entries ]
 ```
     </textarea>
