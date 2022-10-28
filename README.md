@@ -21,11 +21,8 @@ in modo da fare insieme gli esercizi.
   libro su R al quale ho collaborato assieme al Dott. Claudio Zandonella
   Callegher
 - [**Editor di testo
-  condiviso**](https://textb.org/t/testing-psicologico/) dove scrivere
-  codice assieme
-- [**Lavagna
-  Google**](https://jamboard.google.com/d/1poqrWpqQALHRby0xCtaDIzRsnuKksbYwC1XQ2vVnMRU/viewer)
-  dove scriviamo o facciamo schemi utili per comprendere gli argomenti
+  condiviso**](https://etherpad.wikimedia.org/p/testing-psicologico#L1)
+  dove scrivere codice assieme
 
 ## Slides
 
@@ -56,4 +53,4 @@ Tutto il materiale/link saranno riportati anche su Moodle
   uno strumento disponibile in **R Studio** chiamato **R Project**
 - [Funzioni utili in R](extra/funzioni.html)
 
-# Programma (aggiornato il 2022-10-23)
+# Programma (aggiornato il 2022-10-28)
