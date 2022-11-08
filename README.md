@@ -31,10 +31,12 @@ in modo da fare insieme gli esercizi.
 
 Tutto il materiale/link saranno riportati anche su Moodle
 
-- Lezione 0 - [HTML](slides/lezione0/lezione0.html),
-  [PDF](slides/lezione0/lezione0.pdf)
-- Lezione 1a - [HTML](slides/lezione1a/lezione1a.html),
-  [PDF](slides/lezione1a/lezione1a.pdf)
+- Lezione 0 - [HTML](slides_online/lezione0.html),
+  [PDF](slides_online/lezione0.pdf)
+- Lezione 1a - [HTML](slides_online/lezione1a.html),
+  [PDF](slides_online/lezione1a.pdf)
+- Lezione 1b - [HTML](slides_online/lezione1b.html),
+  [PDF](slides_online/lezione1b.pdf)
 
 ## Altri materiali
 
@@ -58,7 +60,7 @@ Tutto il materiale/link saranno riportati anche su Moodle
   uno strumento disponibile in **R Studio** chiamato **R Project**
 - [Funzioni utili in R](extra/funzioni.html)
 
-# Programma (aggiornato il 2022-10-25)
+# Programma (aggiornato il 2022-11-08)
 
 ## 24/10/2022 - Comandi di base e vettori
 
