@@ -34,6 +34,7 @@ Tutto il materiale/link saranno riportati anche su Moodle
 - Lezione 0 - [HTML](slides_online/lezione0.html), [PDF](slides_online/lezione0.pdf)
 - Lezione 1a - [HTML](slides_online/lezione1a.html), [PDF](slides_online/lezione1a.pdf)
 - Lezione 1b - [HTML](slides_online/lezione1b.html), [PDF](slides_online/lezione1b.pdf)
+- Lezione 2 - [HTML](slides_online/lezione2.html), [PDF](slides_online/lezione2.pdf)
 
 ## Altri materiali
 
