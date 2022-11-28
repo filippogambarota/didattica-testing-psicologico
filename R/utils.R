@@ -9,9 +9,9 @@ compile_slides <- function(online = FALSE, pdf = FALSE){
 
 compile <- function(file, online = FALSE, pdf = FALSE){
   if(online){
-    out_dir <- "slides"
-  } else{
     out_dir <- "slides_online"
+  } else{
+    out_dir <- NULL
   }
   html <- rmarkdown::render(file, 
                             params = list(solutions = online),
