@@ -1,0 +1,350 @@
+---
+title: "Testing Psicologico"
+subtitle: "Lezione 2"
+author: "Filippo Gambarota"
+institute: "@Università di Padova"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: ["../files/default.css", "default-fonts"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE, max.print = 20)
+knitr::opts_chunk$set(dev = 'svg',
+                      out.width = "60%",
+                      fig.align = "center",
+                      message = FALSE,
+                      warning = FALSE) # set output device to svg
+library(tidyverse)
+```
+
+class: inverse, center, middle
+
+# Case Study `r emo::ji("astronaut")`
+
+---
+# Un (fake) dataset
+
+Il dataset `psych.csv` contiene un dataframe di dati simulati riguardo a **diagnosi psicologiche**, **questionari** e **variabili sociodemografiche**. Le variabili sono:
+
+- `eta`: corrisponde all'età dei pazienti (età minima dei pazienti 10 anni)
+- `diagnosi`: rappresenta la diagnosi psicologica
+- `ses`: rappresenta lo status socio-economico
+- `dep_score`: rappresenta il punteggio ad un questionario di depressione dove 0 è il punteggio minimo (assenza di aspetti depressivi) e 100 è il punteggio massimo di depressione.
+- `ans_score`: rappresenta il punteggio ad un questionario di ansia dove 0 è il punteggio minimo (assenza di aspetti ansiosi) e 100 è il punteggio massimo di ansia
+- `self_esteem_score`: rappresenta il punteggio ad item di autostima dove 1 è bassa autostima e 6 è alta autostima
+
+---
+# Before starting...
+
+- Importiamo il dataset (attenzione all'*estensione*, al *separatore* e agli *argomenti* della funzione che scegliete)
+- Controllare struttura e tipo di variabili del dataset
+- Controllare **anomalie** nel dataset (valori strani o mancanti) e sistemarli. Gli errori anche in raccolta dati sono sempre dietro l'angolo
+  - nel caso di valori mancanti, rimuovere quelle righe (vedi la funzione `complete.cases()`)
+  - nel caso di valori anomali, creare un nuovo dataset con le righe anomale e rimuoverle dal dataset principale
+- Aggiungere una colonna che indica il numero del paziente da 1 a quanti sono i pazienti
+- Aggiungere una colonna `eta_bin` che prende i valori di "maggiorenne" e "minorenne" in base all'età
+- Rimuovere dal dataset le righe associate a pazienti con diagnosi `altro`
+
+---
+# Before starting...
+
+--
+
+```{r}
+dat <- read.csv("../../data/psych.csv", header = TRUE, sep = ";") # importare
+```
+
+--
+
+```{r}
+str(dat) # struttura e tipo di variabili
+```
+
+--
+
+```{r}
+# ?complete.cases # a cosa serve?
+complete.cases(dat)
+dat <- dat[complete.cases(dat), ] # selezioniamo solo quelli senza valori mancanti
+```
+
+---
+# Before starting...
+
+--
+
+Abbiamo detto che l'età dovrebbe essere maggiore/uguale a 10 anni. Vediamo se abbiamo dei casi anomali:
+
+```{r}
+dat[dat$eta < 10, ] # errori di codifica o raccolta dati
+dat_errori <- dat[dat$eta < 10, ] # dataset con errori
+dat <- dat[dat$eta >= 10, ] # dataset senza errori
+```
+
+--
+
+Continuiamo con il pre-processing...
+
+```{r}
+dat$id <- 1:nrow(dat) # colonna che identifica il numero del paziente
+```
+
+--
+
+```{r}
+dat$eta_bin <- ifelse(dat$eta >= 18, "maggiorenne", "minorenne")
+```
+
+--
+```{r}
+dat <- dat[dat$diagnosi != "altro", ] # togliamo le diagnosi altro
+```
+
+---
+class: inverse, center, middle
+
+# Exploratory Data Analysis `r emo::ji("astronaut")`
+
+---
+# EDA
+
+- Calcoliamo delle statistiche descrittive appropriate per ogni tipologia di variabile
+- Calcoliamo le frequenze relative delle `diagnosi`
+- Calcoliamo le frequenze relative delle `diagnosi` condizionate al `ses`
+- Facciamo un istogramma dei punteggi di `ansia` e `depressione`
+- Facciamo un barplot dei punteggi di `autostima`
+- Facciamo un barplot dei punteggi di `autostima` condizionati al tipo di `diagnosi`
+- Calcoliamo `media`, `mediana` e `deviazione standard` e `coefficiente di variazione` dei punteggi di `depressione`, `ansia` e `autostima` per ogni `diagnosi`. Cosa notiamo?
+
+---
+# EDA
+
+--
+
+```{r}
+summary(dat) # funzione utile ma molto generica
+table(dat$ses)
+table(dat$diagnosi)
+```
+
+---
+# EDA
+
+.font80[
+
+```{r}
+f_diagnosi <- table(dat$diagnosi)/length(dat$diagnosi)
+f_diagnosi
+sum(f_diagnosi)
+# provate ad usare ?prop.table()
+```
+
+```{r}
+ds_f <- table(dat$diagnosi, dat$ses) # assolute, come le relativizziamo? vedi prop.table()
+ds_f
+
+prop.table(ds_f, margin = 1) # a cosa serve margin?
+```
+
+]
+
+---
+# EDA
+
+```{r}
+par(mfrow = c(1,3)) # per fare 2 grafici
+hist(dat$ans_score)
+hist(dat$ans_score)
+barplot(table(dat$self_esteem_score), xlab = "dat$self_esteem_score")
+```
+
+---
+# EDA
+
+Il barplot condizionato è molto utile per esplorare visivamente la relazione tra due variabili categoriali:
+
+```{r}
+barplot(table(dat$self_esteem_score, dat$diagnosi)) # quale è il problema qui?
+```
+
+---
+# EDA
+
+Dobbiamo fare le frequenze relative per fare in modo che sia più efficacie:
+
+```{r}
+freq_self_diag <- prop.table(table(dat$self_esteem_score, dat$diagnosi), 2)
+barplot(freq_self_diag)
+```
+
+---
+
+# EDA
+
+Facciamolo più carino usando `ggplot2` (Advanced)
+
+```{r, echo = FALSE}
+datf <- dat |> 
+  group_by(diagnosi) |> 
+  mutate(tot = n()) |> 
+  group_by(diagnosi, self_esteem_score, tot) |> 
+  summarise(p = n() / tot)
+```
+
+.text90[
+
+```{r}
+ggplot(datf) +
+  geom_col(aes(x = diagnosi, y = p, fill = factor(self_esteem_score)),
+           color = "black", position = position_dodge()) +
+  labs(fill = "Autostima") +
+  ggthemes::theme_par()
+```
+]
+
+---
+# EDA
+
+Facciamo uno scatterplot di ansia e depressione:
+
+```{r}
+plot(dat$ans_score, dat$dep_score, pch = 19)
+```
+
+---
+# EDA
+
+.font80[
+
+Più carino con le distribuzioni marginali:
+
+```{r}
+plt <- ggplot(dat, aes(x = ans_score, y = dep_score)) +
+  geom_point() +
+  ggthemes::theme_par()
+
+ggExtra::ggMarginal(plt, type = "hist")
+```
+
+]
+
+---
+# EDA
+
+```{r}
+par(mfrow = c(2, 1))
+hist(dat$dep_score)
+hist(dat$ans_score)
+```
+
+---
+# EDA
+
+Calcoliamo un punteggio di "malessere" medio facendo la media dei punteggi di ansia e depressione per ogni soggetto:
+
+```{r}
+distress <- apply(dat[, c("ans_score", "dep_score")], 1, mean)
+dat$distress <- distress
+```
+
+.pull-left[
+
+```{r}
+summary(dat$distress)
+```
+
+]
+
+.pull-right[
+
+```{r}
+hist(dat$distress)
+```
+
+]
+
+---
+# EDA
+
+--
+
+Calcoliamo `media`, `mediana` e `deviazione standard` e `coefficiente di variazione` dei punteggi di `depressione`, `ansia` e `autostima` per ogni `diagnosi`. Cosa notiamo?
+
+--
+
+```{r}
+mean(dat$dep_score[dat$diagnosi == "ansiasociale"])
+mean(dat$dep_score[dat$diagnosi == "bipolare"])
+
+# ...
+```
+
+--
+
+Questo non è il modo più efficace e compatto... `r emo::ji("sad")`
+
+---
+# EDA
+
+.font80[
+
+Possiamo usare la funzione `?tapply()` per applicare una `funzione` a `y` splittando per `x`:
+
+```{r}
+cv <- function(x){
+  # https://it.wikipedia.org/wiki/Coefficiente_di_variazione
+  sd(x, na.rm = TRUE) / abs(mean(x, na.rm = TRUE))
+}
+
+# depressione
+tapply(X = dat$dep_score, INDEX = dat$diagnosi, FUN = mean, na.rm = TRUE)
+tapply(X = dat$dep_score, INDEX = dat$diagnosi, FUN = median, na.rm = TRUE)
+tapply(X = dat$dep_score, INDEX = dat$diagnosi, FUN = sd, na.rm = TRUE)
+tapply(X = dat$dep_score, INDEX = dat$diagnosi, FUN = cv)
+```
+
+]
+
+---
+# EDA - Extra
+
+Facciamo un modo ancora più compatto! `r emo::ji("smile")`
+
+```{r}
+my_summary <- function(x){
+  c(
+    mean = mean(x, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    sd = sd(x, na.rm = TRUE),
+    cv = sd(x, na.rm = TRUE) / abs(mean(x, na.rm = TRUE))
+  )
+}
+
+tapply(dat$ans_score, dat$diagnosi, my_summary)
+
+# ... così per tutte le variabili
+```
+
+---
+# EDA - Extra Extra Extra
+
+.font80[
+
+Facciamo un modo ancoooooora più compatto! `r emo::ji("scream")`
+
+```{r}
+ys <- list(depressione = dat$dep_score, 
+           ansia = dat$ans_score, 
+           autostima = dat$self_esteem_score)
+
+lapply(ys, function(x) tapply(x, dat$diagnosi, my_summary))
+```
+
+]
