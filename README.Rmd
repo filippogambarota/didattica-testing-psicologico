@@ -24,8 +24,7 @@ Le lezioni si tengono in **aula A a Psico 3** con orario **16:30-18:00**. Il con
 ## Supporti
 
 - [`introduction2R`](https://psicostat.github.io/Introduction2R/) un libro su R al quale ho collaborato assieme al Dott. Claudio Zandonella Callegher
-- [**Editor di testo condiviso**](https://textb.org/t/testing-psicologico/) dove scrivere codice assieme
-- [**Lavagna Google**](https://jamboard.google.com/d/1poqrWpqQALHRby0xCtaDIzRsnuKksbYwC1XQ2vVnMRU/viewer) dove scriviamo o facciamo schemi utili per comprendere gli argomenti
+- [**Editor di testo condiviso**](https://etherpad.wikimedia.org/p/testing-psicologico#L1) dove scrivere codice assieme
 
 ## Slides
 
