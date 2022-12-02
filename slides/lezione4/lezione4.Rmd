@@ -21,6 +21,7 @@ knitr::opts_chunk$set(dev = 'svg',
                       out.width = "60%",
                       fig.align = "center") # set output device to svg
 devtools::load_all()
+library(tidyverse)
 ```
 
 class: inverse, center, middle
@@ -161,7 +162,7 @@ class: inverse, center, middle
 
 Anche qui una mitica web-app è molto utile per visualizzare la relazione tra due variabili cambiando vari parametri [https://shiny.rit.albany.edu/stat/rectangles/](https://shiny.rit.albany.edu/stat/rectangles/)
 
-```{r}
+```{r, echo = FALSE}
 knitr::include_graphics("img/shiny-correlation.png")
 ```
 
@@ -186,7 +187,7 @@ cor(cor0.7$x, cor0.7$y)
 
 Facciamo i grafici univariati
 
-```{r}
+```{r, out.width="50%"}
 par(mfrow = c(1, 2))
 hist(cor0.7$x)
 hist(cor0.7$y)
@@ -222,12 +223,14 @@ class: inverse, center, middle
 ---
 # Formule
 
-$$
-cov_{x,y} = \frac{\sum_{i=1}^{N}(x_{i}-\bar{x})(y_{i}-\bar{y})}{N-1}
-$$
-$$
-\rho_{x,y} = \frac{cov_{x,y}}{\sigma_x\sigma_y}
-$$
+## Covarianza
+
+$$cov_{x,y} = \frac{\sum_{i=1}^{N}(x_{i}-\bar{x})(y_{i}-\bar{y})}{N-1}$$
+
+
+## Correlazione
+
+$$\rho_{x,y} = \frac{cov_{x,y}}{\sigma_x\sigma_y}$$
 
 ---
 # Soluzioni
@@ -237,7 +240,6 @@ dat <- rcorr(mux = 10, muy = 50, sdx = 4, sdy = 10, n = 50, r = 0.4)
 
 rsummary(dat$x)
 rsummary(dat$y)
-
 ```
 
 ---
@@ -268,7 +270,6 @@ cov(dat$x, dat$y)
 # correlazione
 cov_xy / (sd(dat$x) * sd(dat$y))
 cor(dat$x, dat$y)
-
 ```
 
 ---
@@ -279,5 +280,4 @@ cor(dat$x, dat$y)
 cor.test(dat$x, dat$y)
 ```
 
-
-
+Che conclusioni possiamo trarre?
