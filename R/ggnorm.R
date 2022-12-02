@@ -1,6 +1,6 @@
 #' Plot the result of a pnorm function call
 #'
-#' @name plot_pnorm
+#' @name ggnorm
 #' @description Plot the result of the \code{pnorm} function. The syntax is the same as the \code{pnorm} function.
 #' @param q numeric; The quantile to evaluate the \code{pnorm}
 #' @param mean numeric; The mean of the normal distribution
@@ -10,9 +10,9 @@
 #' @return ggplot object
 #' @export
 #' @examples
-#' plot_pnorm(0.5, 0, 1, lower.tail = TRUE)
+#' ggnorm(0.5, 0, 1, lower.tail = TRUE)
 #' 
-plot_pnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
+ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
   
   require(ggplot2)
   
@@ -85,10 +85,10 @@ plot_pnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
         plt + 
           stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                                 sd = sd),
-                        xlim = c(-4*sd, minq), fill = "red", alpha = 0.3) +
+                        xlim = c(mean - 4*sd, minq), fill = "red", alpha = 0.3) +
           stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                                 sd = sd),
-                        xlim = c(maxq, 4*sd), fill = "red", alpha = 0.3) +
+                        xlim = c(maxq, mean + 4*sd), fill = "red", alpha = 0.3) +
           geom_vline(xintercept = q, linetype = "dashed") +
           ggtitle(pnorm_res) 
       }
