@@ -19,7 +19,9 @@ output:
 options(htmltools.dir.version = FALSE, max.print = 20)
 knitr::opts_chunk$set(dev = 'svg',
                       out.width = "60%",
-                      fig.align = "center") # set output device to svg
+                      fig.align = "center",
+                      message = FALSE,
+                      warning = FALSE) # set output device to svg
 devtools::load_all()
 library(tidyverse)
 ```
@@ -56,64 +58,87 @@ hist(d3, col = "salmon", xlim = c(100-3*50, 100+3*50))
 ```
 
 ---
-# Distribuzione Normale - `pnorm`
+# Distribuzione Normale - `rnorm`
 
-Usiamo una la funzione `plot_pnorm` per rappresentare `pnorm()`
+Il parametro critico di `rnorm` è la numerosità. Più osservazioni generiamo più la nostra distribuzione è precisa.
 
-```{r}
-plot_pnorm(q = 0.5, mean = 0, sd = 1, lower.tail = TRUE) # pnorm(0.5, 0, 1, TRUE)
+```{r, echo = FALSE}
+par(mfrow = c(1,3))
+d1 <- rnorm(n = 10, mean = 0, sd = 1)
+d2 <- rnorm(n = 100, mean = 0, sd = 1)
+d3 <- rnorm(n = 100000, mean = 0, sd = 1)
+hist(d1, xlim = c(-5, 5), main = "N = 10")
+hist(d2, col = "lightblue", xlim = c(-5, 5), main = "N = 100")
+hist(d3, col = "salmon", xlim = c(-5, 5), main = "N = 100000")
 ```
 
 ---
 # Distribuzione Normale - `pnorm`
+
+Usiamo una la funzione `ggnorm` per rappresentare `pnorm()`
+
+```{r}
+ggnorm(q = 0.5, mean = 0, sd = 1, lower.tail = TRUE) # pnorm(0.5, 0, 1, TRUE)
+```
+
+---
+# Distribuzione Normale - `pnorm`
+
+Possiamo anche avere un'area delimitata da 2 quantili
+
+```{r}
+ggnorm(q = c(-1, 1), mean = 0, sd = 1) # pnorm(1, 0, 1) - pnorm(-1, 0, 1)
+```
+
+---
+# Distribuzione Normale - `pnorm`
+
+.font70[
 
 Possiamo anche rappresentare il complementare
 
-```{r}
-plot_pnorm(q = 0.5, mean = 0, sd = 1, lower.tail = FALSE) # pnorm(0.5, 0, 1, FALSE)
+```{r, out.width="50%"}
+ggnorm(q = c(-1, 1), mean = 0, sd = 1, lower.tail = FALSE) # pnorm(-1, 0, 1, lower.tail = TRUE) + pnorm(1, 0, 1, lower.tail = FALSE)
 ```
 
----
-# Distribuzione Normale - `pnorm`
-
-Possiamo anche avere un'area delimitata da 2 quantili
-
-```{r}
-plot_pnorm(q = c(-1, 1), mean = 0, sd = 1) # pnorm(1, 0, 1) - pnorm(-1, 0, 1)
-```
-
----
-# Distribuzione Normale - `pnorm`
-
-Possiamo anche avere un'area delimitata da 2 quantili
-
-```{r}
-plot_pnorm(q = c(-1, 1), mean = 0, sd = 1) # pnorm(1, 0, 1) - pnorm(-1, 0, 1)
-```
+]
 
 ---
 # Distribuzione Normale - `qnorm`
 
+.font70[
+
 `qnorm` è l'operazione complementare di `pnorm`. Se vogliamo sapere il quantile associato ad una certa probabilità comulata $p$ facciamo `qnorm(p, mean, sd)`
 
-```{r}
-p <- 0.2
-q <- round(qnorm(p, 0, 1), 3)
-plot_pnorm(q = q, mean = 0, sd = 1) +
-  geom_vline(xintercept = qnorm(p, 0, 1), color = "red")
+```{r, out.width="50%"}
+cumprob <- 0.2 # da -Inf a q
+q <- round(qnorm(cumprob, 0, 1), 3)
+
+ggnorm(q = q, mean = 0, sd = 1) +
+  geom_point(x = q, 
+             y = 0, 
+             size = 3,
+             color = "red") +
+  theme(plot.title = element_text(size = 12))
 ```
+
+]
 
 ---
 # Distribuzione Normale - `dnorm`
 
+.font70[
+
 Con `dnorm` calcoliamo la densità di probabilità di un quantile. In termini pratici corrisponde all'asse $y$ dei nostri grafici:
 
-```{r}
-q <- 0.5
-dnorm(q, 0, 1)
-plot_pnorm(q = q, mean = 0, sd = 1) +
-  geom_point(x = q, y = dnorm(q, 0, 1), size = 3, col = "red")
+```{r, out.width="50%"}
+ggnorm(q = q, mean = 0, sd = 1) +
+  geom_point(x = q, 
+             y = dnorm(q, 0, 1), 
+             size = 3, 
+             col = "red")
 ```
+]
 
 ---
 class: inverse, center, middle
@@ -123,13 +148,17 @@ class: inverse, center, middle
 ---
 # Esercizi `r emo::ji("gear")`
 
+.font80[
+
 Supponiamo che il punteggio X di un test sull’ansia segua una distribuzione normale con:
 
 - media $\mu = 50$
 - deviazione standard $\sigma = 6$
 
-```{r}
-plot_pnorm(mean = 50, sd = 6)
+]
+
+```{r, out.width="50%"}
+ggnorm(mean = 50, sd = 6)
 ```
 
 ---
@@ -142,6 +171,7 @@ Calcolare la probabilità che un soggetto scelto a caso abbia un punteggio:
 3. compreso tra 55 e 65
 4. inferiore alla media meno una deviazione standard
 5. superiore alla media più una deviazione standard
+6. superiore alla media più 4 deviazioni standard
 
 ---
 # Soluzioni
@@ -165,14 +195,14 @@ pnorm(mu - sigma, mean=mu, sd=sigma)
 Calcolare la probabilità che un soggetto scelto a caso abbia un punteggio che non si
 discosta dalla media più di
 
-6. una deviazione standard
-7. 2 deviazioni standard
-8. deviazioni standard
+1. una deviazione standard
+2. 2 deviazioni standard
+3. 3 deviazioni standard
 
 Calcolare
 
-9. il 95-esimo percentile della distribuzione dei punteggi
-10. il rango percentile associato a un soggetto che ha ottenuto un punteggio di 43
+5. il 95-esimo percentile della distribuzione dei punteggi
+6. il rango percentile associato a un soggetto che ha ottenuto un punteggio di 43
 
 ---
 # Soluzioni
@@ -207,6 +237,98 @@ qnorm(p, mean=mu, sd=sigma)
 class: inverse, center, middle
 
 # Punti Z
+
+---
+# Punti Z
+
+.font70[
+
+I punti Z si calcolano $z_i = \frac{x_i - \mu}{\sigma}$. Vediamo passo per passo: generiamo dei dati da una distribuzione normale con media $\mu = 100$ e deviazione standard $\sigma = 20$:
+
+```{r}
+dat <- data.frame(y = rnorm(100, 100, 20))
+```
+
+```{r, out.width="50%"}
+ggplot(dat, aes(x = y)) +
+  geom_histogram(bins = 20, color = "black", fill = "lightblue") +
+  theme_minimal(base_size = 15)
+```
+
+]
+
+---
+# Punti Z
+
+Prima sottraiamo la media da ogni valore $x_{cen} = x_i - \mu$. Se un valore è vicino alla media avrà un punteggio vicino a 0:
+
+```{r, echo = FALSE}
+dat$ycen <- with(dat, y - mean(y))
+dat$id <- 1:nrow(dat)
+dat$sign <- ifelse(dat$ycen > 0, "positive", "negative")
+
+
+ggplot(dat, aes(y = y, x = id)) +
+  geom_segment(aes(x = id, xend = id,
+                   y = mean(dat$y), yend = y,
+                   color = sign),
+               show.legend = FALSE) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = mean(dat$y)) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ . - mean(dat$y), name = "y - mean(y)")
+  ) +
+  scale_color_manual(values = c("red", "black")) +
+  theme_minimal(base_size = 15)
+```
+
+---
+# Punti Z
+
+Poi calcoliamo e rappresentiamo la deviazione standard che è $\sigma = \sqrt{\frac{\sum_{i = 1}^N(x_i - \mu_x)^2}{N}}$ (la radice quadrata della media degli scarti al quadrato):
+
+```{r, echo = FALSE}
+ggplot(dat, aes(y = y, x = id)) +
+  geom_segment(aes(x = id, xend = id,
+                   y = mean(dat$y), yend = y,
+                   color = sign),
+               show.legend = FALSE) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = mean(dat$y)) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ . - mean(dat$y), name = "y - mean(y)")
+  ) +
+  scale_color_manual(values = c("red", "black")) +
+  theme_minimal(base_size = 15) +
+  geom_hline(yintercept = mean(dat$y)) +
+  geom_hline(yintercept = c(mean(dat$y) + sd(dat$y),
+                            mean(dat$y) - sd(dat$y)),
+             linetype = "dashed")
+```
+
+---
+# Punti Z
+
+Infine dividiamo ogni scarto dalla media per la deviazione standard $z_i = \frac{x_i - \mu}{\sigma}$. In questo modo uno scarto che è vicino alla deviazione standard prenderà il valore ~ 1 e così rapportato a tutte le distanze:
+
+```{r, echo = FALSE}
+ggplot(dat, aes(y = y, x = id)) +
+  geom_segment(aes(x = id, xend = id,
+                   y = mean(dat$y), yend = y,
+                   color = sign),
+               show.legend = FALSE) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = mean(dat$y)) +
+  scale_y_continuous(
+    sec.axis = sec_axis(~ (. - mean(dat$y))/sd(dat$y), name = "(y - mean(y)) / sd(x)")
+  ) +
+  scale_color_manual(values = c("red", "black")) +
+  theme_minimal(base_size = 15) +
+  geom_hline(yintercept = mean(dat$y)) +
+  geom_hline(yintercept = c(mean(dat$y) + sd(dat$y),
+                            mean(dat$y) - sd(dat$y)),
+             linetype = "dashed")
+```
 
 ---
 # Punti Z
@@ -277,42 +399,17 @@ library(ggplot2)
 La logica è leggermente diversa rispetto ai grafici di base. Con `ggplot` si compongono i grafici a *strati* concatenando con `+`
 
 .pull-left[
-```{r, eval = FALSE}
-plot(mtcars$mpg, mtcars$disp)
-```
-]
-
-.pull-right[
-```{r, eval = FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) +
-  geom_point()
-```
-]
-
----
-# ggplot2
-
-.pull-left[
-```{r, echo = FALSE}
-plot(mtcars$mpg, mtcars$disp)
-```
-]
-
-.pull-right[
-```{r, echo = FALSE}
-ggplot(mtcars, aes(x = mpg, y = disp)) +
-  geom_point()
-```
-]
-
----
-# ggplot2
-
-Per grafici molto semplici (come i precedenti) possiamo usare il comando `qplot` che viene usato come `plot` ma restituisce un `ggplot`:
-
 ```{r}
-qplot(mtcars$mpg, mtcars$disp)
+plot(mtcars$mpg, mtcars$disp)
 ```
+]
+
+.pull-right[
+```{r}
+ggplot(mtcars, aes(x = mpg, y = disp)) +
+  geom_point()
+```
+]
 
 ---
 # ggplot2
