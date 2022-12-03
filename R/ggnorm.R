@@ -12,7 +12,7 @@
 #' @examples
 #' ggnorm(0.5, 0, 1, lower.tail = TRUE)
 #' 
-ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
+ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE, within = TRUE){
   
   require(ggplot2)
   
@@ -47,13 +47,19 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
       
       plt <- plt +
         ggtitle(pnorm_res) +
-        geom_vline(xintercept = q, linetype = "dashed")
+        geom_segment(x = q, xend = q,
+                     y = 0, yend = dnorm(q, mean, sd),
+                     linetype = "dashed") +
+        theme(axis.title.x = element_text(colour="red", face = "bold")) +
+        theme(axis.title.y = element_text(colour="blue", face = "bold"))
       
       plt +
         stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                               sd = sd),
                       xlim = c(mean + (4 * side) * sd, q), fill = "red", alpha = 0.3) +
         ggtitle(pnorm_res) +
+        geom_point(x = q, y = 0, size = 5, col = "red") +
+        geom_point(x = q, y = dnorm(q, mean, sd), size = 5, col = "blue") +
         annotate("text", 
                  x = mean + sd*3, 
                  y = dnorm(mean, mean, sd), 
@@ -65,7 +71,16 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
       minq <- q[which.min(q)]
       maxq <- q[which.max(q)]
       
-      if(lower.tail){
+      plt <- plt +
+        geom_segment(x = q, xend = q,
+                     y = 0, yend = dnorm(q, mean, sd),
+                     linetype = "dashed") +
+        theme(axis.title.x = element_text(colour="red", face = "bold")) +
+        theme(axis.title.y = element_text(colour="blue", face = "bold")) +
+        geom_point(x = q, y = 0, size = 5, col = "red") +
+        geom_point(x = q, y = dnorm(q, mean, sd), size = 5, col = "blue")
+      
+      if(within){
         pnorm_op <- pnorm(maxq, mean, sd, lower.tail = TRUE) - 
           pnorm(minq, mean, sd, lower.tail = TRUE)
         
@@ -77,7 +92,6 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
           stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                                 sd = sd),
                         xlim = c(minq, maxq), fill = "red", alpha = 0.3) +
-          geom_vline(xintercept = q, linetype = "dashed") +
           ggtitle(pnorm_res)  +
           annotate("text", 
                    x = mean + sd*3, 
@@ -100,7 +114,6 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
           stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                                 sd = sd),
                         xlim = c(maxq, mean + 4*sd), fill = "red", alpha = 0.3) +
-          geom_vline(xintercept = q, linetype = "dashed") +
           ggtitle(pnorm_res) +
           annotate("text", 
                    x = mean + sd*3, 
