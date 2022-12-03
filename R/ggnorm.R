@@ -24,7 +24,10 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
     theme_minimal(base_size = 20) +
     theme(plot.title = element_text(size = 15)) +
     ylab("dnorm(x)") +
-    xlab("quantile")
+    xlab("x")
+  
+  # distribution parameters
+  basetitle <- sprintf("\U03BC = %s, \U03C3 = %s", mean, sd)
   
   if(!is.null(q)){
     
@@ -46,13 +49,16 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
         ggtitle(pnorm_res) +
         geom_vline(xintercept = q, linetype = "dashed")
       
-      
-      
       plt +
         stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
                                                               sd = sd),
                       xlim = c(mean + (4 * side) * sd, q), fill = "red", alpha = 0.3) +
-        ggtitle(pnorm_res)
+        ggtitle(pnorm_res) +
+        annotate("text", 
+                 x = mean + sd*3, 
+                 y = dnorm(mean, mean, sd), 
+                 label = basetitle,
+                 size = 8)
       
     }else{
       # if two quantiles are given 
@@ -72,7 +78,12 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
                                                                 sd = sd),
                         xlim = c(minq, maxq), fill = "red", alpha = 0.3) +
           geom_vline(xintercept = q, linetype = "dashed") +
-          ggtitle(pnorm_res) 
+          ggtitle(pnorm_res)  +
+          annotate("text", 
+                   x = mean + sd*3, 
+                   y = dnorm(mean, mean, sd), 
+                   label = basetitle,
+                   size = 8)
         
       }else{
         pnorm_op <- pnorm(minq, mean, sd, lower.tail = TRUE) + 
@@ -90,10 +101,19 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE){
                                                                 sd = sd),
                         xlim = c(maxq, mean + 4*sd), fill = "red", alpha = 0.3) +
           geom_vline(xintercept = q, linetype = "dashed") +
-          ggtitle(pnorm_res) 
+          ggtitle(pnorm_res) +
+          annotate("text", 
+                   x = mean + sd*3, 
+                   y = dnorm(mean, mean, sd), 
+                   label = basetitle,
+                   size = 8)
       }
     }
   }else{
-    plt
+    plt + 
+      geom_segment(x = mean, xend = mean,
+                   y = 0, yend = dnorm(mean, mean, sd),
+                   linetype = "dashed") +
+      ggtitle(basetitle)
   }
 }
