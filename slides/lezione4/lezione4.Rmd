@@ -3,7 +3,6 @@ title: "Testing Psicologico"
 subtitle: "Lezione 4"
 author: "Filippo Gambarota"
 institute: "@Università di Padova"
-date: "21/11/2022"
 output:
   xaringan::moon_reader:
     self_contained: true
@@ -56,7 +55,7 @@ class: inverse, center, middle
 
 Per maggiore intuitività dei concetti di *type-1/2 errors*, *potenza*, etc. c'è una web-app molto interessante [https://shiny.rit.albany.edu/stat/betaprob/](https://shiny.rit.albany.edu/stat/betaprob/)
 
-```{r}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("img/shiny-neyman-pearson.png")
 ```
 
@@ -71,9 +70,9 @@ class: inverse, center, middle
 Il manuale di un test per la **depressione** indica che la popolazione *normativa* ha valori $\mu = 30$ e $\sigma = 8$:
 
 - Generare diversi campioni di $n = 30$ soggetti da una distribuzione normale con:
-    - `x1`: $\mu = 30$ e $\sigma = 8$
+    - `x1`: $\mu = 30$ e $\sigma = 15$
     - `x2`: $\mu = 40$ e $\sigma = 10$
-    - `x3`: $\mu = 30$ e $\sigma = 2$
+    - `x3`: $\mu = 30$ e $\sigma = 5$
     
 - Calcolare *media* e *deviazione standard* dei campioni generati
 - Rappresentare graficamente i 3 campioni
@@ -90,9 +89,9 @@ sigma <- 8
 n <- 30
 
 # generiamo i dati
-x1 <- rnorm(n, 30, 8)
+x1 <- rnorm(n, 30, 15)
 x2 <- rnorm(n, 40, 10)
-x3 <- rnorm(n, 30, 2)
+x3 <- rnorm(n, 30, 5)
 
 # calcoliamo media e deviazione standard
 mean_sd <- function(x){
@@ -117,12 +116,23 @@ ggplot(dat, aes(x = sample, y = test, fill = sample)) +
 # Soluzioni
 
 ```{r}
-zoss <- (mean(x1) - mu)/(sigma/sqrt(length(x1))) # statistica test
-pvalue <- pnorm(-abs(zoss))*2 # p value
-pvalue # conclusioni?
+zoss1 <- (mean(x1) - mu)/(sigma/sqrt(length(x1))) # statistica test
+pvalue1 <- pnorm(-abs(zoss1))*2 # p value
+pvalue1 # conclusioni?
 
-Ztest(mean(x2), length(x2), mi = mu, sigma = sigma)
-Ztest(mean(x3), length(x3), mi = mu, sigma = sigma)
+(ztest2 <- Ztest(mean(x2), length(x2), mi = mu, sigma = sigma))
+(ztest3 <- Ztest(mean(x3), length(x3), mi = mu, sigma = sigma))
+```
+
+---
+# Rappresentare il p-value
+
+Possiamo usare la funzione `ggnorm` anche per rappresentare il p-value quando facciamo il test z.
+
+```{r, out.width="50%"}
+zoss <- 2
+ggnorm(c(-zoss, zoss), mean = 0, sd = 1, within = FALSE) +
+  theme(plot.title = element_text(size = 10))
 ```
 
 ---
@@ -131,9 +141,9 @@ Ztest(mean(x3), length(x3), mi = mu, sigma = sigma)
 Il p value non è l'unica informazione importante quando si intepreta il risultato di un test. Prendiamo due condizioni:
 
 ```{r}
-x1 <- rnorm(50, mean = 35, sd = 10)
-x2 <- rnorm(50, mean = 45, sd = 10)
-dat <- data.frame(test = c(x1, x2), group = rep(c("x1", "x2"), each = 50))
+x1 <- rnorm(30, mean = 40, sd = 10)
+x2 <- rnorm(30, mean = 50, sd = 10)
+dat <- data.frame(test = c(x1, x2), group = rep(c("x1", "x2"), each = 30))
 ```
 
 ```{r, echo = FALSE}
@@ -152,6 +162,35 @@ Ztest(mean(x2), length(x2), mi = mu, sigma = sigma)
 In entrambi i casi il p value è significativo e molto piccolo. Ma la differenza è molto diversa in `x1` rispetto ad `x2`. E' sempre importante quindi guardare i dati e analizzare la grandezza dell'effetto (oltre al p value)
 
 ---
+# Non solo la media...
+
+Provate a fare lo z test per questi due scenari:
+
+```{r}
+set.seed(223)
+mu <- 35
+sigma <- 10
+
+x1 <- rnorm(n = 50, mean = 40, sd = 10)
+x2 <- rnorm(n = 500, mean = 40, sd = 10)
+
+mean(x1)
+mean(x2)
+```
+
+Cosa notate? le conclusioni sono le stesse?
+
+---
+# Non solo la media...
+
+```{r}
+Ztest(mean(x1), length(x1), mu, sigma)
+Ztest(mean(x2), length(x2), mu, sigma)
+```
+
+La formula dello z test dipende da $\mu_x$, $\mu$, $\sigma$ e $n_x$. Cambiando alcuni parametri (e.g., $n_x$) e tenedo fissi altri (e.g., $\mu_x$) abbiamo risultati diversi.
+
+---
 class: inverse, center, middle
 
 # Covarianza e Correlazione
@@ -162,7 +201,7 @@ class: inverse, center, middle
 
 Anche qui una mitica web-app è molto utile per visualizzare la relazione tra due variabili cambiando vari parametri [https://shiny.rit.albany.edu/stat/rectangles/](https://shiny.rit.albany.edu/stat/rectangles/)
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("img/shiny-correlation.png")
 ```
 
@@ -281,3 +320,38 @@ cor.test(dat$x, dat$y)
 ```
 
 Che conclusioni possiamo trarre?
+
+---
+# Matrice di correlazione
+
+Quando abbiamo più variabili possiamo comunque calcolare la correlazione bivariata tra tutte le coppie di variabili:
+
+```{r}
+dat <- readRDS("cordat.rds")
+head(dat$datw)
+```
+
+---
+# Matrice di correlazione
+
+Possiamo usare il comando `cor` ed anche il comando `plot` per cacolare e rappresentare le correlazioni
+
+```{r}
+round(cor(dat$datw), 3) # matrice di correlazione
+```
+
+---
+# Matrice di correlazione
+
+Possiamo usare il comando `cor` ed anche il comando `pairs` per cacolare e rappresentare le correlazioni
+
+```{r}
+pairs(dat$datw)
+```
+
+---
+# ... con `corrplot`
+
+```{r}
+corrplot::corrplot(cor(dat$datw))
+```
