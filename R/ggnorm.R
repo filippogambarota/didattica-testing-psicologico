@@ -104,8 +104,8 @@ ggnorm <- function(q = NULL, mean = 0, sd = 1, lower.tail = TRUE, within = TRUE)
           pnorm(maxq, mean, sd, lower.tail = FALSE)
         
         pnorm_res <- sprintf("pnorm(%s, %s, %s, lower.tail = TRUE) + pnorm(%s, %s, %s, lower.tail = FALSE) = %s",
-                             maxq, mean, sd,
                              minq, mean, sd,
+                             maxq, mean, sd,
                              round(pnorm_op, 3))
         plt + 
           stat_function(fun = dnorm, geom = "area", args = list(mean = mean,
