@@ -41,6 +41,15 @@ Tutto il materiale/link saranno riportati anche su Moodle
 - Lezione 4 - [HTML](slides_online/lezione4.html),
   [PDF](slides_online/lezione4.pdf)
 
+## Video
+
+In questa sezione sono aggiunti una serie di video introduttivi riguardo
+l’utilizzo di R Markdown:
+
+- Introduzione a R Markdown 1/3 - [Video](https://youtu.be/fB0vmGELDcw)
+- Introduzione a R Markdown 2/3 - [Video](https://youtu.be/sxdsMtzl-R4)
+- Introduzione a R Markdown 3/3 - [Video](https://youtu.be/D7kS9CvlnBE)
+
 ## Altri materiali
 
 - [Funzioni](https://downgit.github.io/#/home?url=https://github.com/filippogambarota/didattica-testing-psicologico/tree/master/R):
@@ -63,7 +72,7 @@ Tutto il materiale/link saranno riportati anche su Moodle
   uno strumento disponibile in **R Studio** chiamato **R Project**
 - [Funzioni utili in R](extra/funzioni.html)
 
-# Programma (aggiornato il 2022-12-11)
+# Programma (aggiornato il 2023-01-03)
 
 ## 24/10/2022 - Comandi di base e vettori
 
